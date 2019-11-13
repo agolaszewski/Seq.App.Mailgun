@@ -25,12 +25,5 @@ artifacts:
 
 
 before_build:
-  - cmd : dotnet publish
-
-after_build:
-- ps: >-
-    if($env:APPVEYOR_REPO_TAG_NAME)
-    {
-        nuget pack Seq.App.Mailgun.nuspec -Version 1.0
-    }
+  - cmd : dotnet --version
   
