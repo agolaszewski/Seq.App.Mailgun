@@ -1,0 +1,36 @@
+version: '{build}'
+
+branches:
+  only:
+  - master
+
+build:
+  verbosity: minimal
+
+cache:
+  - src\packages -> **\packages.config
+  
+platform: Any CPU
+configuration: Release
+
+pull_requests:
+  do_not_increment_build_number: true
+
+artifacts:
+  - path: \*.nupkg
+    name: NuGet
+  - path: \src\Seq.App.Mailgun\bin\$(configuration)
+    name: Seq.App.Mailgun 
+    type: zip
+
+
+before_build:
+  - cmd : dotnet publish
+
+after_build:
+- ps: >-
+    if($env:APPVEYOR_REPO_TAG_NAME)
+    {
+        nuget pack Seq.App.Mailgun.nuspec -Version 1.0
+    }
+  
