@@ -19,7 +19,7 @@ pull_requests:
 
 before_build:
   - cmd : dotnet --version
-  - cmd : dotnet restore ./src/Seq.App.Mailgun.csproj --verbosity m
+  - cmd : dotnet restore ./src/Seq.App.Mailgun.sln --verbosity m
   
 build_script:
   - cmd: dotnet publish ./src/Seq.App.Mailgun.csproj
