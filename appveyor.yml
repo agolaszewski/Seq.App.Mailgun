@@ -22,7 +22,7 @@ before_build:
   - cmd : dotnet restore ./src/Seq.App.Mailgun.sln --verbosity m
   
 build_script:
-  - cmd: dotnet publish ./src/Seq.App.Mailgun.csproj
+  - cmd: dotnet publish ./src/Seq.App.Mailgun.sln
   
 artifacts:
   - path: \*.nupkg
