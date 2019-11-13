@@ -17,6 +17,13 @@ configuration: Release
 pull_requests:
   do_not_increment_build_number: true
 
+before_build:
+  - cmd : dotnet --version
+  - cmd : dotnet restore ./src/Seq.App.Mailgun.csproj --verbosity m
+  
+build_script:
+  - cmd: dotnet publish ./src/Seq.App.Mailgun.csproj
+  
 artifacts:
   - path: \*.nupkg
     name: NuGet
@@ -24,7 +31,4 @@ artifacts:
     name: Seq.App.Mailgun 
     type: zip
 
-
-before_build:
-  - cmd : dotnet --version
   
