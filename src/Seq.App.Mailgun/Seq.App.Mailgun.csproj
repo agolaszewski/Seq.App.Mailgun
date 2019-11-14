@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Andrzej Gołaszewski</Authors>
+    <Company />
+    <Product />
+    <Description>Send events via Mailgun</Description>
+    <PackageProjectUrl>https://github.com/agolaszewski/Seq.App.Mailgun</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/agolaszewski/Seq.App.Mailgun</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>seq-app</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
