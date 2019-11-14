@@ -19,12 +19,10 @@ before_build:
   
 build_script:
   - cmd: dotnet build ./src/Seq.App.Mailgun/Seq.App.Mailgun.csproj --no-restore
-  - cmd: dotnet pack ./src/Seq.App.Mailgun/Seq.App.Mailgun.csproj --no-build -p:PackageVersion=1.0.${build}
+  - cmd: dotnet pack ./src/Seq.App.Mailgun/Seq.App.Mailgun.csproj --no-build -p:PackageVersion=1.0.%build%
 
 artifacts:
-  - path: \*.nupkg
+  - path: \src\Seq.App.Mailgun\bin\Release\netstandard2.0\*.nupkg
     name: NuGet
-  - path: \src\Seq.App.Mailgun\bin\$(configuration)
-    name: Seq.App.Mailgun 
-    type: zip
+
   
