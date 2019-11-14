@@ -22,7 +22,7 @@ build_script:
   - cmd: dotnet pack ./src/Seq.App.Mailgun/Seq.App.Mailgun.csproj --no-build -p:PackageVersion=1.0.%APPVEYOR_BUILD_VERSION%
 
 artifacts:
-  - path: \src\Seq.App.Mailgun\bin\Release\netstandard2.0\*.nupkg
+  - path: \src\Seq.App.Mailgun\bin\${configuration}\*.nupkg
     name: NuGet
 
   
