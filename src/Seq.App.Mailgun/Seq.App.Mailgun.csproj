@@ -10,12 +10,15 @@
     <RepositoryUrl>https://github.com/agolaszewski/Seq.App.Mailgun</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>seq-app</PackageTags>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentEmail.Mailgun" Version="2.7.0" />
     <PackageReference Include="Seq.Apps" Version="5.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="./bin/publish/**/*" Exclude="./bin/publish/Seq.App.Mailgun.dll;./bin/publish/Seq.Apps.dll;./bin/publish/Serilog.dll" Pack="true" PackagePath="lib/$(TargetFramework)" />
   </ItemGroup>
 
 </Project>
