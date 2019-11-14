@@ -8,7 +8,6 @@ branches:
 cache:
   - packages -> ./src/Seq.App.Mailgun/Seq.App.Mailgun.csproj
   
-platform: Any CPU
 configuration: Release
 
 pull_requests:
