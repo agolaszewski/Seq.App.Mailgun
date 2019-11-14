@@ -3,10 +3,7 @@ image: Visual Studio 2019
 
 branches:
   only:
-  - master
-
-build:
-  verbosity: minimal
+  - development
 
 cache:
   - src\packages -> **\packages.config
@@ -23,12 +20,5 @@ before_build:
   
 build_script:
   - cmd: dotnet publish ./src/Seq.App.Mailgun.sln
-  
-artifacts:
-  - path: \*.nupkg
-    name: NuGet
-  - path: \src\Seq.App.Mailgun\bin\$(configuration)
-    name: Seq.App.Mailgun 
-    type: zip
 
   
