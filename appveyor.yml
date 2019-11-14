@@ -19,7 +19,7 @@ before_build:
   
 build_script:
   - cmd: dotnet build ./src/Seq.App.Mailgun/Seq.App.Mailgun.csproj --no-restore
-  - cmd: dotnet pack ./src/Seq.App.Mailgun/Seq.App.Mailgun.csproj --no-build -p:PackageVersion=1.0.%build%
+  - cmd: dotnet pack ./src/Seq.App.Mailgun/Seq.App.Mailgun.csproj --no-build -p:PackageVersion=1.0.%APPVEYOR_BUILD_VERSION%
 
 artifacts:
   - path: \src\Seq.App.Mailgun\bin\Release\netstandard2.0\*.nupkg
