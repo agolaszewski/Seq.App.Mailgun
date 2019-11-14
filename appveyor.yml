@@ -5,11 +5,8 @@ branches:
   only:
   - master
 
-build:
-  verbosity: minimal
-
 cache:
-  - src\packages -> **\packages.config
+  - packages -> ./src/Seq.App.Mailgun/Seq.App.Mailgun.csproj
   
 platform: Any CPU
 configuration: Release
@@ -19,16 +16,15 @@ pull_requests:
 
 before_build:
   - cmd : dotnet --version
-  - cmd : dotnet restore ./src/Seq.App.Mailgun.sln --verbosity m
+  - cmd : dotnet restore ./src/Seq.App.Mailgun/Seq.App.Mailgun.csproj --verbosity m
   
 build_script:
-  - cmd: dotnet publish ./src/Seq.App.Mailgun.sln
-  
+  - cmd: dotnet publish ./src/Seq.App.Mailgun/Seq.App.Mailgun.csproj --no-restore
+
 artifacts:
   - path: \*.nupkg
     name: NuGet
   - path: \src\Seq.App.Mailgun\bin\$(configuration)
     name: Seq.App.Mailgun 
     type: zip
-
   
