@@ -30,7 +30,7 @@ namespace Seq.App.Mailgun
 
         public void On(Event<LogEventData> evt)
         {
-            //SendEmail("Test");
+            SendEmail("Test");
         }
 
         public void SendEmail(string body)
