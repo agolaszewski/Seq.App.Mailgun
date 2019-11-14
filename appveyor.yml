@@ -19,6 +19,6 @@ before_build:
   - cmd : dotnet restore ./src/Seq.App.Mailgun.sln --verbosity m
   
 build_script:
-  - cmd: dotnet publish ./src/Seq.App.Mailgun.sln
+  - cmd: dotnet publish ./src/Seq.App.Mailgun.sln --no-restore
 
   
