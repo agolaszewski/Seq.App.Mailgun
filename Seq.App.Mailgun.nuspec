@@ -2,6 +2,7 @@
 <package >
   <metadata>
     <id>Seq.App.Mailgun</id>
+    <version>1.0.0</version>
     <title>Seq.App.Mailgun</title>
     <authors>Andrzej Gołaszewski</authors>
     <owners>Andrzej Gołaszewski</owners>
@@ -9,7 +10,7 @@
     <projectUrl>https://github.com/agolaszewski/Seq.App.Mailgun</projectUrl>
     <!--<iconUrl></iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description></description>
+    <description>Send events via Mailgun</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2019</copyright>
     <tags>seq-app</tags>
