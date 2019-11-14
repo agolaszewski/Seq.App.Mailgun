@@ -6,7 +6,7 @@ branches:
   - development
 
 cache:
-  - src\packages -> **\packages.config
+  - packages -> ./src/Seq.App.Mailgun.csproj
   
 platform: Any CPU
 configuration: Release
