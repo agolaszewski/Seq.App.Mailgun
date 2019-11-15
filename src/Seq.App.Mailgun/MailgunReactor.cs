@@ -16,9 +16,6 @@ namespace Seq.App.Mailgun
         [SeqAppSetting(DisplayName = "Api Key")]
         public string ApiKey { get; set; }
 
-        [SeqAppSetting(DisplayName = "From Email Display Name")]
-        public string FromEmailName { get; set; }
-
         [SeqAppSetting(DisplayName = "From Email")]
         public string FromEmail { get; set; }
 
@@ -30,14 +27,14 @@ namespace Seq.App.Mailgun
 
         public void On(Event<LogEventData> evt)
         {
-            SendEmail("Test");
+            SendEmail(evt.Data.ToString());
         }
 
         public void SendEmail(string body)
         {
             var sender = new MailgunSender(Domain, ApiKey);
             var email = Email.From(FromEmail).To(ToEmail).Subject(Subject).Body(body);
-            var response = email.Send();
+            var response = sender.Send(email);
 
             if(!response.Successful)
             {
