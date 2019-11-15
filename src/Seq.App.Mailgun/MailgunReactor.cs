@@ -27,7 +27,7 @@ namespace Seq.App.Mailgun
 
         public void On(Event<LogEventData> evt)
         {
-            SendEmail(evt.Data.ToString());
+            SendEmail(evt.Data.RenderedMessage);
         }
 
         public void SendEmail(string body)
