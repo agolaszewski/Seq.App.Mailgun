@@ -120,7 +120,7 @@ namespace Seq.App.Mailgun
                 { "$Properties",          properties },
                 { "$EventType",           "$" + evt.EventType.ToString("X8") },
                 { "$Instance",            host.InstanceName },
-                { "$ServerUri",           host.BaseUri?.FirstOrDefault() },
+                { "$ServerUri",           host.BaseUri },
                 { "$AdditionalInfo",      additionalInfo }
             });
 
