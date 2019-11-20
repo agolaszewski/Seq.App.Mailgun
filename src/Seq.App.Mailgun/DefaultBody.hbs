@@ -96,6 +96,15 @@
                     {{/each}}
                 </div>
                 {{/if}}
+
+                <div style="margin-top:20px;">
+                    {{#each $Properties}}
+                    <div style="margin-top:10px;">
+                        <div title="{{@key}}" style="font-family:monospace;font-weight:bold;">{{@key}}</div>
+                        <div style="font-family:monospace;word-wrap:break-word;white-space:pre;white-space:pre-wrap;">{{pretty this}}</div>
+                    </div>
+                    {{/each}}
+                </div>
             </td>
             {{else}}
             <td style="text-align:left;padding-top:30px;padding-bottom:40px;padding-right:40px;padding-left:40px;border-left-width:1px;border-left-style:solid;border-left-color:#eee;border-right-width:1px;border-right-style:solid;border-right-color:#eee;">
