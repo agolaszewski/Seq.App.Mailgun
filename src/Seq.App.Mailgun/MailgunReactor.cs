@@ -22,6 +22,7 @@ namespace Seq.App.Mailgun
 
         private Lazy<Func<object, string>> _subjectTemplate;
         private Lazy<Func<object, string>> _bodyTemplate;
+        private Lazy<Func<object, string>> _additionalInfoTemplate;
 
         [SeqAppSetting(DisplayName = "Domain")]
         public string Domain { get; set; }
@@ -36,7 +37,7 @@ namespace Seq.App.Mailgun
         public string To { get; set; }
 
         [SeqAppSetting(DisplayName = "Subject Template", IsOptional = true)]
-        public string SubjectTemplate { get; set; }
+        public string AdditionalInfoTemplate { get; set; }
 
         [SeqAppSetting(DisplayName = "Body", InputType = SettingInputType.LongText, IsOptional = true)]
         public string BodyTemplate { get; set; }
@@ -53,7 +54,7 @@ namespace Seq.App.Mailgun
         {
             _subjectTemplate = new Lazy<Func<object, string>>(() =>
             {
-                var subjectTemplate = SubjectTemplate;
+                var subjectTemplate = AdditionalInfoTemplate;
                 if (string.IsNullOrEmpty(subjectTemplate))
                 {
                     subjectTemplate = DEFAULT_SUBJECT_TEMPLATE;
@@ -72,6 +73,17 @@ namespace Seq.App.Mailgun
 
                 return Handlebars.Compile(bodyTemplate);
             });
+
+            _additionalInfoTemplate = new Lazy<Func<object, string>>(() =>
+            {
+                var additionalInfoTemplate = AdditionalInfoTemplate;
+                if (string.IsNullOrEmpty(additionalInfoTemplate))
+                {
+                    return x => string.Empty;
+                }
+
+                return Handlebars.Compile(additionalInfoTemplate);
+            });
         }
 
         public void On(Event<LogEventData> evt)
@@ -79,8 +91,10 @@ namespace Seq.App.Mailgun
             var recipients = To.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
                  .Select(emailAddress => new Address(emailAddress)).ToList();
 
-            var body = FormatTemplate(_bodyTemplate.Value, evt, Host);
-            var subject = FormatTemplate(_subjectTemplate.Value, evt, Host).Trim().Replace("\r", "").Replace("\n", "");
+            var additionalInfo = FormatTemplate(_additionalInfoTemplate.Value, null, evt, Host);
+
+            var body = FormatTemplate(_bodyTemplate.Value, additionalInfo, evt, Host);
+            var subject = FormatTemplate(_subjectTemplate.Value, null, evt, Host).Trim().Replace("\r", "").Replace("\n", "");
 
             if (subject.Length > MAX_SUBJECT_LENGTH)
             {
@@ -90,23 +104,9 @@ namespace Seq.App.Mailgun
             SendEmail(recipients, subject, body);
         }
 
-        private void SendEmail(List<Address> recipients, string subject, string body)
-        {
-            var email = Email.From(From).To(recipients).Subject(subject).Body(body, isHtml: true);
-
-            var sender = new MailgunSender(Domain, ApiKey);
-            var response = sender.Send(email);
-
-            if (!response.Successful)
-            {
-                throw new Exception(string.Join(" ; ", response.ErrorMessages));
-            }
-        }
-
-        public string FormatTemplate(Func<object, string> template, Event<LogEventData> evt, Host host)
+        private string FormatTemplate(Func<object, string> template, string additionalInfo, Event<LogEventData> evt, Host host)
         {
             var properties = (IDictionary<string, object>)ToDynamic(evt.Data.Properties ?? new Dictionary<string, object>());
-            properties.Add("Info", AdditionalInfo);
 
             var payload = (IDictionary<string, object>)ToDynamic(new Dictionary<string, object>
             {
@@ -120,7 +120,8 @@ namespace Seq.App.Mailgun
                 { "$Properties",          properties },
                 { "$EventType",           "$" + evt.EventType.ToString("X8") },
                 { "$Instance",            host.InstanceName },
-                { "$ServerUri",           host.BaseUri?.FirstOrDefault() }
+                { "$ServerUri",           host.BaseUri?.FirstOrDefault() },
+                { "$AdditionalInfo",      additionalInfo }
             });
 
             foreach (var property in properties)
@@ -129,6 +130,19 @@ namespace Seq.App.Mailgun
             }
 
             return template(payload);
+        }
+
+        private void SendEmail(List<Address> recipients, string subject, string body)
+        {
+            var email = Email.From(From).To(recipients).Subject(subject).Body(body, isHtml: true);
+
+            var sender = new MailgunSender(Domain, ApiKey);
+            var response = sender.Send(email);
+
+            if (!response.Successful)
+            {
+                throw new Exception(string.Join(" ; ", response.ErrorMessages));
+            }
         }
 
         private static object ToDynamic(object o)
