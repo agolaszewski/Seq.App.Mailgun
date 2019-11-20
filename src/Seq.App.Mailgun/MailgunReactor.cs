@@ -92,7 +92,7 @@ namespace Seq.App.Mailgun
 
         private void SendEmail(List<Address> recipients, string subject, string body)
         {
-            var email = Email.From(From).To(recipients).Subject(SubjectTemplate).Body(body, isHtml: true);
+            var email = Email.From(From).To(recipients).Subject(subject).Body(body, isHtml: true);
 
             var sender = new MailgunSender(Domain, ApiKey);
             var response = sender.Send(email);
