@@ -37,13 +37,13 @@ namespace Seq.App.Mailgun
         public string To { get; set; }
 
         [SeqAppSetting(DisplayName = "Subject Template", IsOptional = true)]
-        public string AdditionalInfoTemplate { get; set; }
+        public string SubjectTemplate { get; set; }
 
         [SeqAppSetting(DisplayName = "Body", InputType = SettingInputType.LongText, IsOptional = true)]
         public string BodyTemplate { get; set; }
 
         [SeqAppSetting(DisplayName = "Additional Info", InputType = SettingInputType.LongText, IsOptional = true)]
-        public string AdditionalInfo { get; set; }
+        public string AdditionalInfoTemplate { get; set; }
 
         static MailgunReactor()
         {
@@ -54,7 +54,7 @@ namespace Seq.App.Mailgun
         {
             _subjectTemplate = new Lazy<Func<object, string>>(() =>
             {
-                var subjectTemplate = AdditionalInfoTemplate;
+                var subjectTemplate = SubjectTemplate;
                 if (string.IsNullOrEmpty(subjectTemplate))
                 {
                     subjectTemplate = DEFAULT_SUBJECT_TEMPLATE;
