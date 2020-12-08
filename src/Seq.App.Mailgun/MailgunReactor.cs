@@ -139,7 +139,7 @@ namespace Seq.App.Mailgun
         {
             var email = Email.From(From).To(recipients).Subject(subject).Body(body, isHtml: true);
 
-            var region = Region == "EU" ? MailGunRegion.EU : MailGunRegion.USA;
+            var region = string.Equals(Region, "eu", StringComparison.Ordinal) ? MailGunRegion.EU : MailGunRegion.USA;
             var sender = new MailgunSender(Domain, ApiKey, region);
             var response = sender.Send(email);
 
