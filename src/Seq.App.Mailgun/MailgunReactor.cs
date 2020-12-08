@@ -31,7 +31,7 @@ namespace Seq.App.Mailgun
         public string ApiKey { get; set; }
 
         [SeqAppSetting(DisplayName = "Region", InputType = SettingInputType.Text, HelpText = "Write either USA or EU")]
-        public string Region { get; set; } = "USA";
+        public string Region { get; set; }
 
         [SeqAppSetting(DisplayName = "From")]
         public string From { get; set; }
@@ -139,7 +139,7 @@ namespace Seq.App.Mailgun
         {
             var email = Email.From(From).To(recipients).Subject(subject).Body(body, isHtml: true);
 
-            var region = Region == "USA" ? MailGunRegion.USA : MailGunRegion.EU;
+            var region = Region == "EU" ? MailGunRegion.EU : MailGunRegion.USA;
             var sender = new MailgunSender(Domain, ApiKey, region);
             var response = sender.Send(email);
 
